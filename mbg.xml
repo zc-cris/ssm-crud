@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+	<!-- targetRuntime="MyBatis3" :豪华版套餐（开发用） targetRuntime="MyBatis3Simple"：精简版套餐（测试用） -->
+	<context id="DB2Tables" targetRuntime="MyBatis3">
+
+		<!-- 取消注释 -->
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+
+
+		<!-- 用于指定如何连接目标数据库 -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://localhost:3306/ssm_crud?allowMultiQueries=true"
+			userId="root" password="123456">
+		</jdbcConnection>
+
+		<!-- 类型解析器，默认即可 -->
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<!-- 指定javaBean的生成路径和策略 -->
+		<javaModelGenerator
+			targetPackage="com.zc.cris.crud.bean" targetProject=".\src\main\java">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+
+		<!-- sql映射文件生成路径和策略 -->
+		<sqlMapGenerator targetPackage="mapper"
+			targetProject=".\src\main\resources">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+
+		<!-- 指定mapper 接口所在位置 -->
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="com.zc.cris.crud.dao" targetProject=".\src\main\java">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+
+		<!-- 指定要逆向分析哪些表，根据表生成对应的mapper映射文件，mapper 接口 -->
+		<table tableName="tb_employee" domainObjectName="Employee"></table>
+		<table tableName="tb_department" domainObjectName="Department"></table>
+
+	</context>
+</generatorConfiguration>
