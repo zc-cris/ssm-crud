@@ -2,6 +2,7 @@ package com.zc.cris.crud.dao;
 
 import com.zc.cris.crud.bean.Department;
 import com.zc.cris.crud.bean.DepartmentExample;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

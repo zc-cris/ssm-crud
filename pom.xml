@@ -8,7 +8,7 @@
 	<packaging>war</packaging>
 
 	<properties>
-			<spring_version>4.3.7.RELEASE</spring_version>
+		<spring_version>4.3.7.RELEASE</spring_version>
 	</properties>
 
 	<!-- 引入项目依赖的 jar 包 -->
@@ -42,6 +42,14 @@
 			<scope>test</scope>
 		</dependency>
 
+        <!-- 引入 jackson 的jar 包，使 SpringMVC 根据注解自动解析数据为 Json 类型 -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.9.4</version>
+		</dependency>
+
+
 
 		<!-- Mybatis -->
 		<dependency>
@@ -62,6 +70,13 @@
 			<groupId>org.mybatis.generator</groupId>
 			<artifactId>mybatis-generator-core</artifactId>
 			<version>1.3.5</version>
+		</dependency>
+
+		<!-- pagehelper 插件 -->
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper</artifactId>
+			<version>5.0.0</version>
 		</dependency>
 
 
@@ -86,12 +101,17 @@
 			<version>1.2</version>
 		</dependency>
 
+		<!-- 为了方便 SpringTest 测试，我们需要使用 3.0 的 servlet 规范 -->
+		<!-- <dependency> <groupId>javax.servlet</groupId> <artifactId>servlet-api</artifactId> 
+			<version>2.5</version> <scope>provided</scope> </dependency> -->
+
 		<dependency>
 			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
 			<scope>provided</scope>
 		</dependency>
+
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -99,11 +119,6 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
-
-
-
-
-
 
 
 
