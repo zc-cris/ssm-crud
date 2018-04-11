@@ -32,9 +32,17 @@ public class EmployeeController {
 	 * @since
 	 * @throws
 	 */
-	@RequestMapping("/emps")
+	@RequestMapping("/emps_ajax")  
 	@ResponseBody
 	public Msg getAllByJson(@RequestParam(name="pageNum", defaultValue="1") Integer pageNum) {
+	    // 使用 线程休眠的方式测试 blockUI
+	    try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            
+            e.printStackTrace();
+        }
+	    
 	    // 1. 引入分页查询助手(查询第几页，每页显示5条记录)
         PageHelper.startPage(pageNum, 5);
         // 2. startPage 方法后面再使用我们的查询方法就会生成 limit 关键字的 sql 语句
@@ -57,7 +65,7 @@ public class EmployeeController {
 	 * @since
 	 * @throws
 	 */
-//	@RequestMapping("/emps")
+	@RequestMapping("/emps")
 	public String getAll(@RequestParam(name="pageNum", defaultValue="1") Integer pageNum,
 			Model model) {
 		

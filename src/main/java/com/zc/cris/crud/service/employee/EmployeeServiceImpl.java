@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.zc.cris.crud.bean.Employee;
+import com.zc.cris.crud.bean.EmployeeExample;
 import com.zc.cris.crud.dao.EmployeeMapper;
 
 @Service
@@ -16,7 +17,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 	@Override
 	public List<Employee> listAll() {
-		return employeeMapper.selectByExampleWithDepartment(null);
+	    EmployeeExample employeeExample = new EmployeeExample();
+	    employeeExample.setOrderByClause("id ASC");
+		return employeeMapper.selectByExampleWithDepartment(employeeExample);
 	}
 
 }

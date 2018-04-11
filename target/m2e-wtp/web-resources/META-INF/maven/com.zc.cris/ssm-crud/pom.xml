@@ -42,7 +42,7 @@
 			<scope>test</scope>
 		</dependency>
 
-        <!-- 引入 jackson 的jar 包，使 SpringMVC 根据注解自动解析数据为 Json 类型 -->
+		<!-- 引入 jackson 的jar 包，使 SpringMVC 根据注解自动解析数据为 Json 类型 -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
@@ -73,11 +73,17 @@
 		</dependency>
 
 		<!-- pagehelper 插件 -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.github.pagehelper</groupId>
 			<artifactId>pagehelper</artifactId>
 			<version>5.0.0</version>
+		</dependency> -->
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper</artifactId>
+			<version>5.1.3</version>
 		</dependency>
+
 
 
 		<!-- 数据库连接池 -->

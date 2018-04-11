@@ -107,8 +107,8 @@ public class MapperTest{
 		// 测试有选择性的更新员工数据
 		//employeeMapper.updateByPrimaryKeySelective(new Employee(1, "埃尔维", null, null, "F", null, null, 3));
 		// 测试查询员工(不带详细部门信息)
-		Employee emp = employeeMapper.selectByPrimaryKey(1);
-		System.out.println(emp);
+//		Employee emp = employeeMapper.selectByPrimaryKey(1);
+//		System.out.println(emp);
 		// 测试删除员工
 //		employeeMapper.deleteByPrimaryKey(1);
 		
@@ -121,11 +121,11 @@ public class MapperTest{
 		
 		
 		// 测试批量插入多个员工：需要在 spring 的核心文件配置可以执行批量操作的 sqlSession 实例
-//		EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
-//		for(int i = 0; i < 100; i++) {
-//			String uuid = UUID.randomUUID().toString().subSequence(0, 2) + "cris";
-//			mapper.insertSelective(new Employee(null, uuid, 10000.0, 20, "M", uuid + "@163.com", new Date(), 2));
-//		}
+		EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
+		for(int i = 0; i < 100; i++) {
+			String uuid = UUID.randomUUID().toString().subSequence(0, 2) + "cris";
+			mapper.insertSelective(new Employee(null, uuid, 10000.0 + i, 20, "M", uuid + "@163.com", new Date(), 2));
+		}
 		
 		// 测试批量更新数据
 //		for(int i = 2; i < 102; i++) {

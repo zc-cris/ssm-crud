@@ -1,11 +1,12 @@
-C:\File\eclipse_workspace\ssm-crud\src\main\java\com\zc\cris\crud\bean\department\DepartmentExample.java
-C:\File\eclipse_workspace\ssm-crud\src\main\java\com\zc\cris\crud\bean\employee\Employee.java
-C:\File\eclipse_workspace\ssm-crud\src\main\java\com\zc\cris\crud\bean\employee\EmployeeExample.java
+C:\File\eclipse_workspace\ssm-crud\src\main\java\com\zc\cris\crud\bean\DepartmentExample.java
+C:\File\eclipse_workspace\ssm-crud\src\main\java\com\zc\cris\crud\bean\Department.java
 C:\File\eclipse_workspace\ssm-crud\src\main\java\com\zc\cris\crud\service\employee\EmployeeService.java
 C:\File\eclipse_workspace\ssm-crud\src\main\java\com\zc\cris\crud\dao\EmployeeMapper.java
 C:\File\eclipse_workspace\ssm-crud\src\main\java\com\zc\cris\crud\test\MapperTest.java
+C:\File\eclipse_workspace\ssm-crud\src\main\java\com\zc\cris\crud\bean\EmployeeExample.java
+C:\File\eclipse_workspace\ssm-crud\src\main\java\com\zc\cris\crud\bean\vo\Msg.java
 C:\File\eclipse_workspace\ssm-crud\src\main\java\com\zc\cris\crud\dao\DepartmentMapper.java
-C:\File\eclipse_workspace\ssm-crud\src\main\java\com\zc\cris\crud\bean\department\Department.java
+C:\File\eclipse_workspace\ssm-crud\src\main\java\com\zc\cris\crud\bean\Employee.java
 C:\File\eclipse_workspace\ssm-crud\src\main\java\com\zc\cris\crud\controller\EmployeeController.java
 C:\File\eclipse_workspace\ssm-crud\src\main\java\com\zc\cris\crud\test\MVCTest.java
 C:\File\eclipse_workspace\ssm-crud\src\main\java\com\zc\cris\crud\service\employee\EmployeeServiceImpl.java
