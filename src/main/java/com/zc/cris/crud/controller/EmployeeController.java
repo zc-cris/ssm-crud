@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -15,11 +16,41 @@ import com.zc.cris.crud.bean.Employee;
 import com.zc.cris.crud.bean.vo.Msg;
 import com.zc.cris.crud.service.employee.EmployeeService;
 
+/**
+ * 
+ * @Description：TODO (员工控制器)
+ * @Project Name：ssm-crud
+ * @Package Name: com.zc.cris.crud.controller
+ * @ClassName：EmployeeController.java
+ * @Author：zc-cris
+ * @version: v1.0
+ * @Copyright: zc-cris
+ * @mail: 17623887386@163.com
+ */
 @Controller
 public class EmployeeController {
 
 	@Autowired
 	EmployeeService employeeService;
+	
+	/**
+	 * 
+	 * @MethodName: saveEmp
+	 * @Description: TODO (新增一条员工数据)
+	 * @param employee
+	 * @return
+	 * @Return Type: Msg
+	 * @Author: zc-cris
+	 * @since
+	 * @throws
+	 */
+	@RequestMapping(value = "/emp", method = RequestMethod.POST)
+	@ResponseBody
+	public Msg saveEmp(Employee employee) {
+	    System.out.println(employee);
+	    employeeService.saveEmp(employee);
+	    return Msg.success();
+	}
 	
 	/**
 	 * 
@@ -57,7 +88,7 @@ public class EmployeeController {
 	/**
 	 * 
 	 * @MethodName: getAll
-	 * @Description: TODO (访问首页时，分页查询数据)
+	 * @Description: TODO (访问首页时，分页查询数据并跳转)
 	 * @param pageNum
 	 * @return
 	 * @Return Type: String
