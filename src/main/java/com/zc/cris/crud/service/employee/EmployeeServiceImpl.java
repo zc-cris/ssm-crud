@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.zc.cris.crud.bean.Employee;
 import com.zc.cris.crud.bean.EmployeeExample;
+import com.zc.cris.crud.bean.EmployeeExample.Criteria;
 import com.zc.cris.crud.dao.EmployeeMapper;
 
 @Service
@@ -39,6 +40,25 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void saveEmp(Employee employee) {
         employeeMapper.insertSelective(employee);
+    }
+
+    /**
+     * 
+     * @MethodName: countByName
+     * @Description: TODO (根据前端传来的用户名验证数据库是否已经有相同用户名的数据了)
+     * @see com.zc.cris.crud.service.employee.EmployeeService#countByName(java.lang.String)
+     * @Author：zc-cris
+     * @return true:表示用户名可用；false：表示用户名不可用
+     */
+    @Override
+    public boolean countByName(String empName) {
+        EmployeeExample example = new EmployeeExample();
+        Criteria criteria = example.createCriteria();
+        criteria.andNameEqualTo(empName);
+        
+        long count = employeeMapper.countByExample(example);
+        
+        return count == 0;
     }
 
 }

@@ -35,6 +35,28 @@ public class EmployeeController {
 	
 	/**
 	 * 
+	 * @MethodName: checkEmpName
+	 * @Description: TODO (验证前端传来用户名是否可用)
+	 * @param empName
+	 * @return
+	 * @Return Type: Msg
+	 * @Author: zc-cris
+	 * @since
+	 * @throws
+	 */
+	@ResponseBody
+	@RequestMapping("/checkEmpName")
+	public Msg checkEmpName(@RequestParam(name="empName") String empName) {
+	    boolean flag = employeeService.countByName(empName);
+	    if(flag) {
+	        return Msg.success();
+	    }else {
+	        return Msg.fail();
+	    }
+	}
+	
+	/**
+	 * 
 	 * @MethodName: saveEmp
 	 * @Description: TODO (新增一条员工数据)
 	 * @param employee

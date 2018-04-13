@@ -50,21 +50,24 @@
 							<div class="form-group">
 								<label for="add_name_input" class="col-sm-2 control-label">名字</label>
 								<div class="col-sm-8">
-									<input type="text" name="name" class="form-control" id="add_name_input" placeholder="name">
+									<input type="text" name="name" class="form-control" id="add_name_input" placeholder="请输入名字">
+									<span class="help-block"></span>
 								</div>
 							</div>
 							<!--薪水-->
 							<div class="form-group">
 								<label for="add_salary_input" class="col-sm-2 control-label">薪水</label>
 								<div class="col-sm-8">
-									<input type="text" name="salary" class="form-control" id="add_salary_input" placeholder="salary">
+									<input type="text" name="salary" class="form-control" id="add_salary_input" placeholder="请输入薪水">
+									<span class="help-block"></span>
 								</div>
 							</div>
 							<!--年龄-->
 							<div class="form-group">
 								<label for="add_age_input" class="col-sm-2 control-label">年龄</label>
 								<div class="col-sm-8">
-									<input type="text" name="age" class="form-control" id="add_age_input" placeholder="age">
+									<input type="text" name="age" class="form-control" id="add_age_input" placeholder="请输入年龄">
+									<span class="help-block"></span>
 								</div>
 							</div>
 							<!--性别-->
@@ -83,14 +86,16 @@
 							<div class="form-group">
 								<label for="add_email_input" class="col-sm-2 control-label">邮箱</label>
 								<div class="col-sm-8">
-									<input type="email" name="email" class="form-control" id="add_email_input" placeholder="email">
+									<input type="email" name="email" class="form-control" id="add_email_input" placeholder="请输入邮箱">
+									<span class="help-block"></span>
 								</div>
 							</div>
 							<!--入职时间-->
 							<div class="form-group">
 								<label for="add_hiredate_input" class="col-sm-2 control-label">入职时间</label>
 								<div class="col-sm-8">
-									<input type="date" name="hiredate" class="form-control" id="add_hiredate_input" placeholder="hiredate">
+									<input type="date" name="hiredate" class="form-control" id="add_hiredate_input" placeholder="请填选入职时间">
+									<span class="help-block"></span>
 								</div>
 							</div> 
 							<!--部门名字-->
@@ -158,7 +163,6 @@
 
 				</table>
 			</div>
-
 		</div>
 
 		<!--显示分页信息-->
@@ -171,20 +175,24 @@
 			<div class="col-md-6" id="page_nav_area"></div>
 		</div>
 	</div>
+	
+	
 
 	<!-- 引入 blockUI 需要的 gif -->
 	<img id="loading" alt="" src="${APP_PATH}/static/img/load.gif"
 		style="display: none" />
 
 	<script type="text/javascript">
+	
 		/* 1. 页面加载完成后，直接发送 ajax 请求去后台获取到分页数据 */
 		$(function() {
+			
 
 			//使用默认的BlockUI设置（专门用来对发送ajax请求和接收ajax响应进行页面处理）
 			//$(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
 			//自定义具体的blockUI使用
 			$(document).ajaxStart(function() {
-
+			
 				$.blockUI({
 					message : $("#loading"),
 					css : {
@@ -238,6 +246,12 @@
 			var second=now.getSeconds(); 
 			return year+"/ "+month+"/ "+date+" "+hour+":"+minute+":"+second;
 			 */
+			if(month < 10){
+				month = "0" + month;
+			}
+			if(date < 10){
+				date = "0" + date;
+			}
 
 			return year + " / " + month + " / " + date;
 		}
@@ -436,8 +450,13 @@
 		// fireFox 和 chrome 测试模态框均闪退
 		$("#add_emp_modal_btn").click(function(){
 			
-				// 清楚之前的部门信息
-				$("#add_emp_modal select").empty();
+				// 表单重置
+				$("#add_emp_modal form")[0].reset();
+				// 清除所有输入框的提示信息
+				$("#add_emp_modal span").text("");
+				// 清除所有输入框的颜色样式
+				$("#add_emp_modal input").parent().removeClass("has-error has-success");
+				
 				
 				// 发送 ajax 请求，查出部门信息，显示在下拉列表中
 				$.ajax({
@@ -479,58 +498,150 @@
             return o;
         }; 
         
-        /* 10. 自定义 replaceAll */
+        /* 10. 自定义通用的 replaceAll */
         String.prototype.replaceAll = function(s1, s2){
 				return this.replace(new RegExp(s1, "gm"), s2);
+				
 			}
-     
-        /* ~~~新增员工时的数据校验 */
-        function validate_add_emp(){
-        	
-        	// 名字校验
-        	var name = $("#add_name_input").val();
-        	var regName = (/^[a-z0-9_-]{3,10}$/) || (/^[\u2E80-\u9FFF](3,5)$/);
+        
+        // 名字验证(单独提取出来，因为后台有唯一性需求)
+        function validate_name(nameInput){
+        	var name = $(nameInput).val();
+        	var regName = /(^[a-zA-Z0-9\u2E80-\u9FFF][\w\u2E80-\u9FFF-]{2,4}$)/;
         	if(!regName.test(name)){
-        		alert("名字不正确");
+        		validate_msg(nameInput, "error", "名字需以英文，中文开头，不能包含除 -，_ 以外其他特殊字符的3-5位字符串");
         		return false;
+        	}else{
+        		validate_msg(nameInput, "success", "");
+        		return true;
         	}
-        	// 邮箱校验
-        	v
-        	
         }
         
-		/* 11. 通过 ajax 完成模态框的 数据新增 */
+     
+		/* ~~~新增员工时的数据校验 */
+        function validate_add_emp(){
+			
+			// 取消用户名校验，通过 change 事件校验即可
+        	
+        	// 工资校验
+        	var salary = $("#add_salary_input").val();
+        	var regSalary = /^[1-9]\d{4,7}\.{1}\d{2}$/;
+        	if(!regSalary.test(salary)){
+        		validate_msg("#add_salary_input", "error", "工资必须为数字且包含5-8位整数和2位小数");
+        		return false;
+        	} else {
+        		validate_msg("#add_salary_input", "success", "");
+        	}
+        	
+        	// 年龄校验
+        	var age = $("#add_age_input").val();
+        	var regAge = /(^[1]\d{1,2}$)|(^[2-9]\d{0,1}$)/;
+        	if(!regAge.test(age)){
+        		validate_msg("#add_age_input", "error", "年龄不合法");
+        		return false;
+        	}else{
+        		validate_msg("#add_age_input", "success", "");
+        	}
+        	
+        	// 邮箱校验
+        	var email = $("#add_email_input").val();
+        	var regEmail = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+        	if (!regEmail.test(email)) {
+        		validate_msg("#add_email_input", "error", "邮箱格式不正确");
+        		return false;
+        	} else {
+        		validate_msg("#add_email_input", "success", "");
+        	}
+        	
+        	
+        	// 入职时间校验
+        	var hiredate = $("#add_hiredate_input").val();
+        	if($.trim(hiredate) == ""){
+        		validate_msg("#add_hiredate_input", "error", "日期不能为空");
+        		return false;
+        	}
+			hiredate = hiredate.replace(/-/g, "/");
+			var d=new Date(Date.parse(hiredate));
+			var curDate=new Date();
+			if(d>curDate){
+				validate_msg("#add_hiredate_input", "error", "日期不合法");
+				return false;
+			}else{
+				validate_msg("#add_hiredate_input", "success", "");
+			}
+        	return true;
+        }
+        /* 11. 结合bootstrap 进行验证信息的美化显示*/
+       function validate_msg (obj , status, msg){
+       		var objParent = $(obj).parent();
+       		var objNextSpan = $(obj).next("span");
+       		objParent.removeClass("has-error has-success");
+       		
+       		objNextSpan.text("");
+       		if ("success" == status) {
+       			objParent.addClass("has-success");
+       			objNextSpan.text(msg);
+       		} else if ("error" == status) {
+       			objParent.addClass("has-error");
+       			objNextSpan.text(msg);
+       		}
+       }
+        
+       /* 12. 内容改变事件：发送 ajax请求到后台验证用户名是否已经存在 */
+       $("#add_name_input").change(function(){
+       			
+    	   		// 如果用户名不合法也就没有必要去后台校验用户名是否存在了
+    	   		if(!validate_name("#add_name_input")){
+    	   			return false;
+    	   		}
+    	   
+       			var empName = $(this).val();
+       			empName = $.trim(empName);
+       			$.ajax({
+       				type:"post",
+       				url:"${APP_PATH}/checkEmpName",
+       				data:"empName=" + empName,
+       				success:function(backData){
+       					if(backData.code == 100){		//后台返回code 为100 表示当前用户名可以使用
+       						validate_msg("#add_name_input", "success", "用户名可用");
+       						$("#save_emp_btn").attr("name_validate", "available");	//添加指定属性给保存按钮
+       					} else if (backData.code == 200){	//后台返回code 为100 表示当前用户名不可以使用
+       						validate_msg("#add_name_input", "error", "用户名不可用");
+       						$("#save_emp_btn").attr("name_validate", "disable");	//添加指定属性给保存按钮
+       					}
+       				}
+       			});
+       			
+       		
+       })
+        
+		/* 13. 通过 ajax 完成模态框的数据新增 */
 		$("#save_emp_btn").click(function(){
 			
-			// 11.1 数据校验
+			// 13.1 数据校验
 			if(!validate_add_emp()){
 				return false;
 			};
 			
-			// jquery 提供的针对表单数据的序列化，序列表表格内容为字符串
-			var serializeData = $("#add_emp_modal form").serialize(); 
-			// name=Rose&salary=12456.90&age=29&gender=M&email=1234%40qq.com&hiredate=2016-04-06&dept_id=1
-			// 必须进行这一步的全部替换，否则后台无法将 xxxx-xx-xx 格式的时间字符串转换为 Date 类型
-			// 或者在 SpringMVC 接收参数的时候再进行处理(不推荐)
-			serializeData = serializeData.replaceAll("-","/");
-			// alert(serializeData);
-			// name=siri&salary=1234&age=123&gender=M&email=4ew&hiredate=2016/04/04&deptId=1
 			
+			// 13.2 必须验证用户名的 ajax 请求返回成功的信息，才可以完成数据的新增操作
+			// 通过保存按钮属性值判断后台验证是否成功（更优雅）
+			if($("#save_emp_btn").attr("name_validate") == "disable"){
+				return false;
+			}
+		
+			var NewEmpdata = $("#add_emp_modal form").serializeObject();
+			// json 对象修改指定键的值
+			NewEmpdata["hiredate"] = NewEmpdata.hiredate.replace(/-/g,"/");
 			
-			/* var data = JSON.stringify($("#add_emp_modal form").serializeObject());
-			alert(data); */
-			// {"name":"james","salary":"232345.34","age":"23","gender":"M","email":"1234@qq.com","hiredate":"2016-04-05","deptId":"1"}
-			// alert(data.name);		// undefined? 有时间找个前端问下 - . -
-			
-			/* var k = {"name":"james","salary":"232345.34","age":"23","gender":"M","email":"1234@qq.com","hiredate":"2016-04-05","deptId":"1"}
-			alert(k.name); */		// 打印为james
 			
 			// 模态框填写的表单数据交给服务器保存
-			// 11.2 发送 ajax 请求保存员工
+			// 13.3 发送 ajax 请求保存员工
 			 $.ajax({ 
 				url : "${APP_PATH}/emp",
 				// SpringMVC 默认只处理前台传来的数据格式为 xxxx/xx/xx 的时间格式
-				data : serializeData,
+				//data : JSON.parse(AddEmpdata),		// 将j处理后的 son 字符串转换为 json 对象
+				data : NewEmpdata,						// 直接传入处理后的 json 对象
 				type : "POST",
 				success : function(backData){
 					alert(backData.message);
@@ -539,15 +650,10 @@
 					$("#add_emp_modal").modal('hide');
 					// 2. 来到最后一页，显示刚才保存的数据（发送 ajax 请求，显示最后一页的数据即可）
 					// 这里故意使后台的 pagehelper 助手跳转到比当前总页数最大的一页，默认处理为最后一页
-					alert("23");
 					to_page(totalRecord);
 				} 
 			})
-			
 		})
-		
-		
-		
 		
 	</script>
 
