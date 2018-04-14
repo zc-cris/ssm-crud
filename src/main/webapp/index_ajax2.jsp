@@ -31,92 +31,7 @@
 </head>
 <body>
 
-		<!-- 员工修改信息显示Modal 模态框组件 -->
-		<div class="modal fade" id="update_emp_modal" tabindex="-1" role="dialog" aria-labelledby="update_emp_modal" >
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-						<h4 class="modal-title" id="myModalLabel">修改员工</h4>
-					</div>
-					<div class="modal-body">
-						<!--模态框里面的表单-->
-						<form class="form-horizontal" id="update_emp_form">
-							<!--名字-->
-							<div class="form-group">
-								<label for="update_name_input" class="col-sm-2 control-label">名字</label>
-								<div class="col-sm-8">
-									<p class="form-control-static" id="update_empNname_static"></p>
-								</div>
-							</div>
-							<!--薪水-->
-							<div class="form-group">
-								<label for="update_salary_input" class="col-sm-2 control-label">薪水</label>
-								<div class="col-sm-8">
-									<input type="text" name="salary" class="form-control" id="update_salary_input" placeholder="请输入薪水">
-									<span class="help-block" style="font-size: 13px;">工资必须为数字且包含5-8位整数和2位小数</span>
-								</div>
-							</div>
-							<!--年龄-->
-							<div class="form-group">
-								<label for="update_age_input" class="col-sm-2 control-label">年龄</label>
-								<div class="col-sm-8">
-									<p class="form-control-static" id="update_age_static"></p>
-								</div>
-							</div>
-							<!--性别-->
-							<div class="form-group">
-								<label for="update_gender_input" class="col-sm-2 control-label">性别</label>
-								<div class="col-sm-8">
-								<label class="radio-inline">
-									<input type="radio" name="gender" id="update_gender_M" value="M" checked> 男
-								</label>
-								<label class="radio-inline">
-									  <input type="radio" name="gender" id="update_gender_F" value="F"> 女
-								</label>
-								<div id ="update_gender_input"></div>
-								<span class="help-block" style="font-size: 13px;">请选择正确的性别</span>
-								</div>
-							</div>
-							<!--邮箱-->
-							<div class="form-group">
-								<label for="update_email_input" class="col-sm-2 control-label">邮箱</label>
-								<div class="col-sm-8">
-									<input type="email" name="email" class="form-control" id="update_email_input" placeholder="请输入邮箱">
-									<span class="help-block" style="font-size: 13px;">邮箱格式必须合法</span>
-								</div>
-							</div>
-							<!--入职时间-->
-							<div class="form-group">
-								<label for="update_hiredate_input" class="col-sm-2 control-label">入职时间</label>
-								<div class="col-sm-8">
-									<p class="form-control-static" id="update_hiredate_static"></p>
-								</div>
-							</div> 
-							<!--部门名字-->
-							<div class="form-group">
-								<label for="update_department_input" class="col-sm-2 control-label">所属部门</label>
-								<div class="col-sm-5">
-									<!--部门信息只需要向后台发送部门id即可-->
-									<select class="form-control" name="deptId" id="update_deptId_input">
-										
-									</select>
-									<span class="help-block" style="font-size: 13px;">请选择正确的部门</span>
-								</div>
-							</div>
-						</form>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary" id="update_emp_btn">修改</button>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- 员工新增Modal 模态框组件 -->
+		<!-- Modal 模态框组件 -->
 		<div class="modal fade" id="add_emp_modal" tabindex="-1" role="dialog" aria-labelledby="add_emp_modal" >
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
@@ -134,7 +49,7 @@
 								<label for="add_name_input" class="col-sm-2 control-label">名字</label>
 								<div class="col-sm-8">
 									<input type="text" name="name" class="form-control" id="add_name_input" placeholder="请输入名字">
-									<span class="help-block" style="font-size: 13px;"></span>
+									<span class="help-block"></span>
 								</div>
 							</div>
 							<!--薪水-->
@@ -142,7 +57,7 @@
 								<label for="add_salary_input" class="col-sm-2 control-label">薪水</label>
 								<div class="col-sm-8">
 									<input type="text" name="salary" class="form-control" id="add_salary_input" placeholder="请输入薪水">
-									<span class="help-block" style="font-size: 13px;">工资必须为数字且包含5-8位整数和2位小数</span>
+									<span class="help-block"></span>
 								</div>
 							</div>
 							<!--年龄-->
@@ -150,7 +65,7 @@
 								<label for="add_age_input" class="col-sm-2 control-label">年龄</label>
 								<div class="col-sm-8">
 									<input type="text" name="age" class="form-control" id="add_age_input" placeholder="请输入年龄">
-									<span class="help-block" style="font-size: 13px;">年龄必须在1-200之间</span>
+									<span class="help-block"></span>
 								</div>
 							</div>
 							<!--性别-->
@@ -163,8 +78,6 @@
 								<label class="radio-inline">
 									  <input type="radio" name="gender" id="add_gender_F" value="F"> 女
 								</label>
-								<div id ="add_gender_input"></div>
-								<span class="help-block" style="font-size: 13px;">请选择正确的性别</span>
 								</div>
 							</div>
 							<!--邮箱-->
@@ -172,7 +85,7 @@
 								<label for="add_email_input" class="col-sm-2 control-label">邮箱</label>
 								<div class="col-sm-8">
 									<input type="email" name="email" class="form-control" id="add_email_input" placeholder="请输入邮箱">
-									<span class="help-block" style="font-size: 13px;">邮箱格式必须合法</span>
+									<span class="help-block"></span>
 								</div>
 							</div>
 							<!--入职时间-->
@@ -180,7 +93,7 @@
 								<label for="add_hiredate_input" class="col-sm-2 control-label">入职时间</label>
 								<div class="col-sm-8">
 									<input type="date" name="hiredate" class="form-control" id="add_hiredate_input" placeholder="请填选入职时间">
-									<span class="help-block" style="font-size: 13px;">请勿选择大于当前的时间</span>
+									<span class="help-block"></span>
 								</div>
 							</div> 
 							<!--部门名字-->
@@ -188,10 +101,9 @@
 								<label for="add_department_input" class="col-sm-2 control-label">所属部门</label>
 								<div class="col-sm-5">
 									<!--部门信息只需要向后台发送部门id即可-->
-									<select class="form-control" name="deptId" id="add_deptId_input">
+									<select class="form-control" name="deptId">
 										
 									</select>
-									<span class="help-block" style="font-size: 13px;">请选择正确的部门</span>
 								</div>
 							</div>
 						</form>
@@ -395,26 +307,19 @@
 								emp.department.name);
 
 						var editBtn = $("<button></button>").addClass(
-								"btn btn-primary btn-sm edit_btn").append(
+								"btn btn-primary btn-sm").append(
 								$("<spand></span>").addClass(
 										"glyphicon glyphicon-pencil")).append(
 								"编辑");
-						// 为编辑按钮添加自定义的属性，表示当前员工id
-						editBtn.attr("edit_id", emp.id);
-						
-						
 						var deleteBtn = $("<button></button>").addClass(
-								"btn btn-danger btn-sm delete_btn").append(
+								"btn btn-danger btn-sm").append(
 								$("<spand></span>").addClass(
 										"glyphicon glyphicon-trash")).append(
 								"删除");
-						// 为删除按钮添加自定义的属性
-						deleteBtn.attr("delete_id", emp.id);
-						
 
 						var btnTd = $("<td></td>").append(editBtn).append(" ")
 								.append(deleteBtn);
-						
+
 						// append方法可以实现链式调用，将append方法里的标签放进jquery 生成的标签里
 						$("<tr></tr>").append(idTd).append(idTd).append(nameTd)
 								.append(salaryTd).append(ageTd)
@@ -546,40 +451,32 @@
 				// 表单重置
 				$("#add_emp_modal form")[0].reset();
 				// 清除所有输入框的提示信息
-				//$("#add_emp_modal span").text("");
+				$("#add_emp_modal span").text("");
 				// 清除所有输入框的颜色样式
 				$("#add_emp_modal input").parent().removeClass("has-error has-success");
-				$("#add_emp_modal span").css("color", "darkseagreen");
-				$("#add_name_input").next("span").text("名字需以英文，中文开头，不能包含除 -，_ 以外其他特殊字符的3-5位字符串");
 				
 				
 				// 发送 ajax 请求，查出部门信息，显示在下拉列表中
-				getDepts("#add_emp_modal select");
+				$.ajax({
+					url : "${APP_PATH}/depts",
+					data : {
+						"date" : new Date()
+					},
+					type : "GET",
+					success : function(backData) {
+						//console.log(backData);
+						var select = $("#add_emp_modal select");
+						$.each(backData.map.depts, function(){
+							$("<option></option>").append(this.name).attr("value", this.id).appendTo(select);
+						})
+
+					}
+				})
 				
 				// 弹出模态框
 				$("#add_emp_modal").modal(options);
 				
 			});
-		
-		function getDepts(ele){
-			$(ele).empty();
-			$.ajax({
-				url : "${APP_PATH}/depts",
-				data : {
-					"date" : new Date()
-				},
-				type : "GET",
-				success : function(backData) {
-					//console.log(backData);
-					var select = $(ele);
-					$.each(backData.map.depts, function(){
-						$("<option></option>").append(this.name).attr("value", this.id).appendTo(select);
-					})
-
-				}
-				
-			})
-		}
 		
 		/* 9. 将表单数据直接转换为 json 格式的数据 */
 		$.fn.serializeObject = function()
@@ -610,11 +507,10 @@
         	var name = $(nameInput).val();
         	var regName = /(^[a-zA-Z0-9\u2E80-\u9FFF][\w\u2E80-\u9FFF-]{2,4}$)/;
         	if(!regName.test(name)){
-        		validate_msg(nameInput, "error");
-        		$("#add_name_input").next("span").text("名字需以英文，中文开头，不能包含除 -，_ 以外其他特殊字符的3-5位字符串").css("color", "red");
+        		validate_msg(nameInput, "error", "名字需以英文，中文开头，不能包含除 -，_ 以外其他特殊字符的3-5位字符串");
         		return false;
         	}else{
-        		validate_msg(nameInput, "success");
+        		validate_msg(nameInput, "success", "");
         		return true;
         	}
         }
@@ -629,65 +525,65 @@
         	var salary = $("#add_salary_input").val();
         	var regSalary = /^[1-9]\d{4,7}\.{1}\d{2}$/;
         	if(!regSalary.test(salary)){
-        		validate_msg("#add_salary_input", "error");
+        		validate_msg("#add_salary_input", "error", "工资必须为数字且包含5-8位整数和2位小数");
         		return false;
         	} else {
-        		validate_msg("#add_salary_input", "success");
+        		validate_msg("#add_salary_input", "success", "");
         	}
         	
         	// 年龄校验
         	var age = $("#add_age_input").val();
         	var regAge = /(^[1]\d{1,2}$)|(^[2-9]\d{1}$)/;
         	if(!regAge.test(age)){
-        		validate_msg("#add_age_input", "error");
+        		validate_msg("#add_age_input", "error", "年龄必须在1-200之间");
         		return false;
         	}else{
-        		validate_msg("#add_age_input", "success");
+        		validate_msg("#add_age_input", "success", "");
         	}
         	
         	// 邮箱校验
         	var email = $("#add_email_input").val();
         	var regEmail = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
         	if (!regEmail.test(email)) {
-        		validate_msg("#add_email_input", "error");
+        		validate_msg("#add_email_input", "error", "邮箱格式不正确");
         		return false;
         	} else {
-        		validate_msg("#add_email_input", "success");
+        		validate_msg("#add_email_input", "success", "");
         	}
         	
         	
         	// 入职时间校验
         	var hiredate = $("#add_hiredate_input").val();
         	if($.trim(hiredate) == ""){
-        		validate_msg("#add_hiredate_input", "error");
+        		validate_msg("#add_hiredate_input", "error", "日期不能为空");
         		return false;
         	}
 			hiredate = hiredate.replace(/-/g, "/");
 			var d=new Date(Date.parse(hiredate));
 			var curDate=new Date();
 			if(d>curDate){
-				validate_msg("#add_hiredate_input", "error");
+				validate_msg("#add_hiredate_input", "error", "日期不合法");
 				return false;
 			}else{
-				validate_msg("#add_hiredate_input", "success");
+				validate_msg("#add_hiredate_input", "success", "");
 			}
         	return true;
         }
         /* 11. 结合bootstrap 进行验证信息的美化显示*/
-       function validate_msg (obj , status){
+       function validate_msg (obj , status, msg){
        		var objParent = $(obj).parent();
-       		
+       		var objNextSpan = $(obj).next("span");
        		objParent.removeClass("has-error has-success");
        		
+       		objNextSpan.text("");
        		if ("success" == status) {
        			objParent.addClass("has-success");
-       			$(obj).next("span").css("color", "darkseagreen");
+       			objNextSpan.text(msg);
        		} else if ("error" == status) {
        			objParent.addClass("has-error");
-       			$(obj).next("span").css("color", "red");
+       			objNextSpan.text(msg);
        		}
        }
-       
         
        /* 12. 内容改变事件：发送 ajax请求到后台验证用户名是否已经存在 */
        $("#add_name_input").change(function(){
@@ -705,12 +601,10 @@
        				data:"empName=" + empName,
        				success:function(backData){
        					if(backData.code == 100){		//后台返回code 为100 表示当前用户名可以使用
-       						validate_msg("#add_name_input", "success");
-       						$("#add_name_input").next("span").text("用户名可用").css("color", "darkseadarkseagreen");
+       						validate_msg("#add_name_input", "success", "用户名可用");
        						$("#save_emp_btn").attr("name_validate", "available");	//添加指定属性给保存按钮
        					} else if (backData.code == 200){	//后台返回code 为100 表示当前用户名不可以使用
-       						validate_msg("#add_name_input", "error");
-       						$("#add_name_input").next("span").text("用户名不可用").css("color", "red");
+       						validate_msg("#add_name_input", "error", "用户名不可用");
        						$("#save_emp_btn").attr("name_validate", "disable");	//添加指定属性给保存按钮
        					}
        				}
@@ -723,17 +617,16 @@
 		$("#save_emp_btn").click(function(){
 			
 			// 13.1 数据校验
-			if(!validate_add_emp()){
+			/* if(!validate_add_emp()){
 				return false;
-			};  
+			};   */
 			
 			
 			// 13.2 必须验证用户名的 ajax 请求返回成功的信息，才可以完成数据的新增操作
 			// 通过保存按钮属性值判断后台验证是否成功（更优雅）
-			 if($("#save_emp_btn").attr("name_validate") != "available"){
-				$("#add_name_input").next("span").css("color", "red");
+			/* if($("#save_emp_btn").attr("name_validate") == "disable"){
 				return false;
-			} 
+			} */
 		
 			var NewEmpdata = $("#add_emp_modal form").serializeObject();
 			// json 对象修改指定键的值
@@ -746,7 +639,7 @@
 				url : "${APP_PATH}/emp",
 				// SpringMVC 默认只处理前台传来的数据格式为 xxxx/xx/xx 的时间格式
 				//data : JSON.parse(AddEmpdata),		// 将j处理后的 son 字符串转换为 json 对象
-				data : NewEmpdata,						// 直接传入处理后的 json 对象
+				data :  {"name":"james","salary":"23345.34","age":"23","gender":"M","email":"1234@qq.com","hiredate":"2016/04/05","deptId":"56"},						// 直接传入处理后的 json 对象
 				type : "POST",
 				success : function(backData){
 					
@@ -761,13 +654,16 @@
 					to_page(totalRecord);
 					
 					}else{
-						// 哪个字段后台校验不通过，那么就提示哪个字段
+						// 哪个字段后台校验不通过，那么就显示哪个字段的错误信息
 						// 使用jquery 遍历 map里面的 每个 json格式的数据，index 就是键，fieldError（this) 就是值
-						// 使用jquery 遍历 list里面的 每个 字符串格式的数据，index 就是索引，fieldError（this) 就是值
 						$.each(backData.map.fieldErrors, function(index, fieldError){
 							
+							/* alert("键："+index);
+							alert("值："+fieldError); */
 							if(undefined != fieldError){
-								validate_msg("#add_"+ fieldError +"_input", "error");
+								alert("键："+index);
+								alert("值："+fieldError);
+								validate_msg("#add_"+ index +"_input", "error", "fafa");
 							}
 						})
 					}
@@ -775,64 +671,6 @@
 				} 
 			})
 		})
-		
-		// 14. 因为是在按钮创建之前就绑定了click 时间，所以使用click 事件无法创建函数
-		// 1. 可以在创建按钮的时候绑定	//2. 使用on 事件（live 事件在 jquery 1.7 之后就被取消）
-		$(document).on("click",".edit_btn", function(){
-			
-			
-			//1. 查询部门信息
-			// 发送 ajax 请求，查出部门信息，显示在下拉列表中
-			getDepts("#update_emp_modal select");
-			$("#update_emp_modal").modal({
-				backdrop:"static"
-			});
-			
-			//2. 查询需要更新的用户信息
-			getEmp($(this).attr("edit_id"));
-			
-			
-			//3. 弹出模态框
-			// 表单重置
-			$("#update_emp_modal form")[0].reset();
-			// 清除所有输入框的颜色样式
-			$("#update_emp_modal input").parent().removeClass("has-error has-success");
-			$("#update_emp_modal span").css("color", "darkseagreen");
-			
-		
-			
-		});
-		
-			// 15.使用 ajax 请求去后台根据id查询员工并显示在模态框中
-			function getEmp(id) {
-				$.ajax({
-					url: "${APP_PATH}/emp/" + id,
-					type: "get",
-					success: function (backData) {
-						
-						var emp = backData.map.emp;
-						// 将后台传来的时间戳类型的时间进行自定义格式化
-						var hiredate = formatDate(new Date(emp.hiredate));
-						// 将后台传来的字符串类型的工资转换为 两位小数的格式
-						var salary = changeTwoDecimal_f(emp.salary);
-						
-						$("#update_empNname_static").text(emp.name);
-						$("#update_hiredate_static").text(hiredate);
-						$("#update_age_static").text(emp.age);
-						$("#update_email_input").val(emp.email);
-						$("#update_salary_input").val(salary);
-						
-						// 单选框被选中
-						$("#update_emp_modal input[name=gender]").val([emp.gender]);
-						// 下拉框被选中
-						$("#update_emp_modal select").val([emp.deptId]);
-						
-						
-					}
-				})
-			}
-		
-		
 		
 	</script>
 

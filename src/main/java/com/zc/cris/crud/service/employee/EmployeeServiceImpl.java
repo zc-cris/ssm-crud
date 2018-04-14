@@ -61,4 +61,17 @@ public class EmployeeServiceImpl implements EmployeeService {
         return count == 0;
     }
 
+    /**
+     * 
+     * @MethodName: getEmpById
+     * @Description: TODO (根据前端传来的id查询对应的员工)
+     * @see com.zc.cris.crud.service.employee.EmployeeService#getEmpById(java.lang.Integer)
+     * @Author：zc-cris
+     */
+    @Override
+    public Employee getEmpById(Integer id) {
+        
+        return employeeMapper.selectByPrimaryKey(id);
+    }
+
 }

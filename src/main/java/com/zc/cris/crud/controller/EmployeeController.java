@@ -1,10 +1,19 @@
 package com.zc.cris.crud.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,6 +41,27 @@ public class EmployeeController {
 
 	@Autowired
 	EmployeeService employeeService;
+	
+	
+	/**
+	 * 
+	 * @MethodName: getEmp
+	 * @Description: TODO (根据id 查询用户)
+	 * @param id
+	 * @return
+	 * @Return Type: Msg
+	 * @Author: zc-cris
+	 * @since
+	 * @throws
+	 */
+	@RequestMapping(value = "/emp/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public Msg getEmp(@PathVariable(value = "id") Integer id ) {
+	    
+	    Employee employee = employeeService.getEmpById(id);
+	    
+	    return Msg.success().add("emp", employee);
+	}
 	
 	/**
 	 * 
@@ -68,10 +98,29 @@ public class EmployeeController {
 	 */
 	@RequestMapping(value = "/emp", method = RequestMethod.POST)
 	@ResponseBody
-	public Msg saveEmp(Employee employee) {
-	    System.out.println(employee);
-	    employeeService.saveEmp(employee);
-	    return Msg.success();
+	public Msg saveEmp(@Valid Employee employee, BindingResult result) {
+	    
+        System.out.println(employee);
+        if (result.hasErrors()) {
+            
+            // 业务优化：即使用户绕过了前台验证，也无法通过后台的 JSR303 校验，
+            // 并且后台不需要将校验信息传给前端，只需要告诉前端哪个字段不合法即可
+            
+            //Map<String, Object> map = new HashMap<>();
+            List<String> list = new ArrayList<>();
+            
+            List<FieldError> fieldErrors = result.getFieldErrors();
+            for (FieldError fieldError : fieldErrors) {
+                System.out.println(fieldError.getField());
+                System.out.println(fieldError.getDefaultMessage());
+                list.add(fieldError.getField());
+            }
+            return Msg.fail().add("fieldErrors", list);
+
+        } else {
+            employeeService.saveEmp(employee);
+            return Msg.success();
+        }
 	}
 	
 	/**

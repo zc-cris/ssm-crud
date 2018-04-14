@@ -12,4 +12,6 @@ public interface EmployeeService {
 
     boolean countByName(String empName);
 
+    Employee getEmpById(Integer id);
+
 }
