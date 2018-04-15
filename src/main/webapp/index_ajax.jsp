@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>员工列表</title>
 
 <!-- 
@@ -27,7 +28,7 @@
 	href="${APP_PATH }/static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
 <script
 	src="${APP_PATH }/static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
-
+	
 </head>
 <body>
 
@@ -218,7 +219,7 @@
 			<div class="col-md-4 col-md-offset-8">
 				<button class="btn btn-primary" id="add_emp_modal_btn" data-toggle="modal"
 					data-target="#add_emp_modal" data-backdrop="static">新增</button>
-				<button class="btn btn-danger">删除</button>
+				<button class="btn btn-danger" id="delete_allEmp_btn">删除</button>
 			</div>
 		</div>
 		<hr />
@@ -231,6 +232,9 @@
 				<table class="table table-striped table-hover" id="emps_table">
 					<thead>
 						<tr class="info text-center">
+							<th>
+								<input type="checkbox" id="check_all">
+							</th>
 							<th>#</th>
 							<th>name</th>
 							<th>salary</th>
@@ -269,6 +273,9 @@
 		style="display: none" />
 
 	<script type="text/javascript">
+		// 定义一个变量记录总记录数，主要是为了新增数据成功跳转至最后一页显示新添加的数据
+		// 定义一个当前页码的变量，方便更新数据成功后跳转至当前页显示修改后的数据
+		var totalRecord, currentPage;
 	
 		/* 1. 页面加载完成后，直接发送 ajax 请求去后台获取到分页数据 */
 		$(function() {
@@ -367,8 +374,7 @@
 		/* 5. 通过jQuery 的方式构建员工数据显示表格 */
 		function build_emps_table(backData) {
 			
-			// 定义一个变量记录总记录数，主要是为了新增数据成功跳转至最后一页显示新添加的数据
-			var totalRecord;
+			
 
 			// 显示数据之前先要清空当前数据
 			$("#emps_table tbody").empty();
@@ -382,6 +388,7 @@
 						// 将后台传来的字符串类型的工资转换为 两位小数的格式
 						var salary = changeTwoDecimal_f(emp.salary);
 
+						var checkboxTd = $("<td><input type='checkbox' class='check_item'></td>");
 						var idTd = $("<td></td>").append(emp.id);
 						var nameTd = $("<td></td>").append(emp.name).addClass(
 								"active");
@@ -416,7 +423,7 @@
 								.append(deleteBtn);
 						
 						// append方法可以实现链式调用，将append方法里的标签放进jquery 生成的标签里
-						$("<tr></tr>").append(idTd).append(idTd).append(nameTd)
+						$("<tr></tr>").append(checkboxTd).append(idTd).append(nameTd)
 								.append(salaryTd).append(ageTd)
 								.append(genderTd).append(emailTd).append(
 										hiredateTd).append(departmentNameTd)
@@ -432,6 +439,7 @@
 			var pageInfo = backData.map.pageInfo;
 			
 			totalRecord = pageInfo.total;
+			currentPage = pageInfo.pageNum;
 
 			// 显示数据之前先要清空当前数据
 			$("#page_info_area").empty();
@@ -619,21 +627,42 @@
         	}
         }
         
+        // 工资校验
+        function validate_salary(ele){
+        	
+        	var salary = $(ele).val();
+        	var regSalary = /^[1-9]\d{4,7}\.{1}\d{2}$/;
+        	if(!regSalary.test(salary)){
+        		validate_msg(ele, "error");
+        		return false;
+        	} else {
+        		validate_msg(ele, "success");
+        		return true;
+        	}
+        }
+        // 邮箱校验
+        function validate_email(ele) {
+        	var email = $(ele).val();
+        	var regEmail = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+        	if (!regEmail.test(email)) {
+        		validate_msg(ele, "error");
+        		return false;
+        	} else {
+        		validate_msg(ele, "success");
+        		return true;
+        	}
+		}
+        
+        
      
 		/* ~~~新增员工时的数据校验 */
         function validate_add_emp(){
 			
 			// 取消用户名校验，通过 change 事件校验即可
-        	
         	// 工资校验
-        	var salary = $("#add_salary_input").val();
-        	var regSalary = /^[1-9]\d{4,7}\.{1}\d{2}$/;
-        	if(!regSalary.test(salary)){
-        		validate_msg("#add_salary_input", "error");
+        	if(!validate_salary("#add_salary_input")){
         		return false;
-        	} else {
-        		validate_msg("#add_salary_input", "success");
-        	}
+        	};
         	
         	// 年龄校验
         	var age = $("#add_age_input").val();
@@ -646,14 +675,9 @@
         	}
         	
         	// 邮箱校验
-        	var email = $("#add_email_input").val();
-        	var regEmail = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
-        	if (!regEmail.test(email)) {
-        		validate_msg("#add_email_input", "error");
+        	if(!validate_email("#add_email_input")){
         		return false;
-        	} else {
-        		validate_msg("#add_email_input", "success");
-        	}
+        	};
         	
         	
         	// 入职时间校验
@@ -725,7 +749,7 @@
 			// 13.1 数据校验
 			if(!validate_add_emp()){
 				return false;
-			};  
+			}; 
 			
 			
 			// 13.2 必须验证用户名的 ajax 请求返回成功的信息，才可以完成数据的新增操作
@@ -738,6 +762,7 @@
 			var NewEmpdata = $("#add_emp_modal form").serializeObject();
 			// json 对象修改指定键的值
 			NewEmpdata["hiredate"] = NewEmpdata.hiredate.replace(/-/g,"/");
+			alert(JSON.stringify(NewEmpdata));
 			
 			
 			// 模态框填写的表单数据交给服务器保存
@@ -791,6 +816,8 @@
 			//2. 查询需要更新的用户信息
 			getEmp($(this).attr("edit_id"));
 			
+			//2.2 将员工的id值放入到 update 按钮的属性中
+			$("#update_emp_btn").attr("update_id", $(this).attr("edit_id"));
 			
 			//3. 弹出模态框
 			// 表单重置
@@ -832,6 +859,91 @@
 				})
 			}
 		
+			// 16. 更新员工数据
+			$("#update_emp_btn").click(function(){
+				
+				//1. 验证薪水是否合法
+        		if(!validate_salary("#update_salary_input")){
+        			return false;
+        		};
+				
+				//2. 验证邮箱是否合法
+        		if(!validate_email("#update_email_input")){
+        			return false;	
+        		};
+        		
+				//3. 发送ajax 请求保存更新的员工数据
+				$.ajax({
+					url: "${APP_PATH}/emp/" + $(this).attr("update_id"),
+					method: "PUT",   // 需要在web.xml 中配置一个专门的put请求解析的filter
+					data:$("#update_emp_modal form").serialize(),
+					
+					// 传统的方法将将 post 请求转换为 PUT 或 DELETE 请求
+/* 					method: "POST",  
+					data:$("#update_emp_modal form").serialize() + "&_method=PUT", */
+					
+					success:function(backData){
+						alert(backData.message);
+						
+						// 修改员工成功
+						// 1.关闭模态框
+						$("#update_emp_modal").modal('hide');
+						// 2. 来到当前页，显示刚才修改的数据（发送 ajax 请求，显示当前页的数据即可）
+						to_page(currentPage);
+						
+					}
+				})
+			})
+			
+			// 为删除按钮绑定单击事件(单个删除)
+			$(document).on("click",".delete_btn", function(){
+				var name = $(this).parents("tr").find("td:eq(2)").text();
+				if (confirm("确认要删除【" + name + "】吗？")) {
+					$.ajax({
+						url:"${APP_PATH}/emp/" + $(this).attr("delete_id"),
+						type:"DELETE",
+						success:function(backData){
+							alert(backData.message);
+							//回到本页显示删除后的页面信息
+							to_page(currentPage);
+						}
+					})
+				}
+			
+		});
+			
+			// 完成全选全不选的功能（非常简单）
+			$("#check_all").click(function(){
+				// prop用来获取dom原生属性的值，attr用来获取自定义属性的值
+				// 如果使用 attr 来获取原生属性的值，就会是 undefined
+				$(".check_item").prop("checked", $(this).prop("checked"));
+			})
+			// 完成当前页面所有数据的checkbox都选择时，全选框自动勾选；反之取消
+			$(document).on("click",".check_item", function(){
+				var flag = $(".check_item:checked").length == $(".check_item").length;
+				$("#check_all").prop("checked", flag);
+			})
+			// 点击批量删除按钮
+			$("#delete_allEmp_btn").click(function () {
+				var names = "";
+				var ids = "";
+				$.each($(".check_item:checked"),function(){
+					names += $(this).parents("tr").find("td:eq(2)").text() + ",";
+					ids += $(this).parents("tr").find("td:eq(1)").text() + "-";
+				})
+				names = names.substring(0, names.length - 1);
+				ids = ids.substring(0, ids.length - 1);
+				if (confirm("确认要删除【" + names + "】吗？")) {
+					$.ajax({
+						url:"${APP_PATH}/emp/"+ ids,
+						type:"DELETE",
+						success:function(backData){
+							alert(backData.message);
+							to_page(currentPage);
+						}
+					})
+				}
+			})
 		
 		
 	</script>

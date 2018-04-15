@@ -42,6 +42,93 @@ public class EmployeeController {
 	@Autowired
 	EmployeeService employeeService;
 	
+	/**
+	 * 
+	 * @MethodName: deleteEmpById
+	 * @Description: TODO (删除单个员工以及多个员工)
+	 * @param id
+	 * @return
+	 * @Return Type: Msg
+	 * @Author: zc-cris
+	 * @since
+	 * @throws
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/emp/{ids}", method = RequestMethod.DELETE)
+	public Msg deleteEmpById(@PathVariable(value = "ids") String ids) {
+	        // 批量删除
+	    if(ids.contains("-")) {
+	        String[] splits = ids.split("-");
+	        List<Integer> idList = new ArrayList<>();
+	        for (String idStr : splits) {
+                Integer id = Integer.valueOf(idStr);
+                idList.add(id);
+            }
+	        employeeService.removeEmployeeBatch(idList);
+	    }else {
+	        // 单个删除
+	        employeeService.removeEmployee(Integer.valueOf(ids));
+	    }
+	    
+	    return Msg.success();
+	}
+	
+	
+	/**
+     * 如果直接发送ajax=PUT形式的请求
+     * 封装的数据
+     * Employee 
+     * [id=1, nameame=null, gender=null, email=null, deptId=null]
+     * 
+     * 问题：
+     * 请求体中有数据；
+     * 但是Employee对象封装不上；
+     * update tb_employee  where id = 1;
+     * 
+     * 原因：
+     * Tomcat：
+     *      1、将请求体中的数据，封装一个map。
+     *      2、request.getParameter("empName")就会从这个map中取值。
+     *      3、SpringMVC封装POJO对象的时候。
+     *              会把POJO中每个属性的值设置为从request.getParamter("email")获取的值;
+     * AJAX发送PUT请求引发的血案：
+     *      PUT请求，请求体中的数据，request.getParameter("name")拿不到
+     *      Tomcat一看是PUT不会封装请求体中的数据为map，只有POST形式的请求才封装请求体为map
+     * org.apache.catalina.connector.Request--parseParameters() (3111);
+     * 
+     * protected String parseBodyMethods = "POST";
+     * if( !getConnector().isParseBodyMethod(getMethod()) ) {
+                success = true;
+                return;
+            }
+     * 
+     * 
+     * 解决方案；
+     * 我们要能支持直接发送PUT之类的请求还要封装请求体中的数据
+     * 1、配置上HttpPutFormContentFilter；
+     * 2、他的作用；将请求体中的数据解析包装成一个map。
+     * 3、request被重新包装，request.getParameter()被重写，就会从自己封装的map中取数据
+     * 员工更新方法
+	 * @MethodName: updateEmp
+	 * @Description: TODO (员工更新方法)
+	 * @param employee
+	 * @return
+	 * @Return Type: Msg
+	 * @Author: zc-cris
+	 * @since
+	 * @throws
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/emp/{id}", method = RequestMethod.PUT)
+	public Msg updateEmp(Employee employee) {
+        System.out.println(employee);       //这里的封装的employee 的id 自动从url路径后的参数获取，但是名字一定得一致
+       
+        employeeService.updateEmp(employee);
+        return Msg.success();
+        
+	}
+	
+	
 	
 	/**
 	 * 

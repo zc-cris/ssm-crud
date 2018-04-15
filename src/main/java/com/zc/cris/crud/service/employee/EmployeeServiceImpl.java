@@ -74,4 +74,45 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeMapper.selectByPrimaryKey(id);
     }
 
+    /**
+     * 
+     * @MethodName: updateEmp
+     * @Description: TODO (更新一个员工数据)
+     * @see com.zc.cris.crud.service.employee.EmployeeService#updateEmp(com.zc.cris.crud.bean.Employee)
+     * @Author：zc-cris
+     */
+    @Override
+    public void updateEmp(Employee employee) {
+        employeeMapper.updateByPrimaryKeySelective(employee);
+    }
+
+    /**
+     * 
+     * @MethodName: removeEmployee
+     * @Description: TODO (根据id删除员工)
+     * @see com.zc.cris.crud.service.employee.EmployeeService#removeEmployee(java.lang.Integer)
+     * @Author：zc-cris
+     */
+    @Override
+    public void removeEmployee(Integer id) {
+        employeeMapper.deleteByPrimaryKey(id);
+    }
+
+    /**
+     * 
+     * @MethodName: removeEmployeeBatch
+     * @Description: TODO (根据id批量删除用户)
+     * @see com.zc.cris.crud.service.employee.EmployeeService#removeEmployeeBatch(java.util.List)
+     * @Author：zc-cris
+     */
+    @Override
+    public void removeEmployeeBatch(List<Integer> idList) {
+        // 使用 example 组装sql 条件
+        EmployeeExample example = new EmployeeExample();
+        Criteria criteria = example.createCriteria();
+        criteria.andIdIn(idList);
+        
+        employeeMapper.deleteByExample(example);
+    }
+
 }
